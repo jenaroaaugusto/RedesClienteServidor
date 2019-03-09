@@ -54,29 +54,19 @@ def requisicao():
 
             print(x)
     print(separador,'\n')
+    cabecalho=dados[0:separador]
+    corpo=dados[separador:len(dados)]
+    # print(cabecalho,"\n")    
+    
+    # print(corpo,"\n")
     # input() 
     # dados.replace("\n"," ")
-    dadosf=re.sub(r'[\\]+[n]'," ",dados)
-    print(dadosf)
-    input()
+    corpo=re.sub(r'[\\]+[n]'," ",corpo)
+    print(corpo)
 
-    # j = ''
-    # k = ''
-    # for i in dados:
-    #     if '<!DOCTYPE' in i:
-    #         print("aqui\n")
-    #         input()
-    #         aux = i.split('\n')
-            
-    #         for t in aux:
-    #             k += t
-    #         j += k
-    #         continue
-    #     j += i
-
-    # f = open("index.html", 'w')
-    # # j.replace("\n"," ")
-    # f.write(str(j.replace('\n',' ')))
-    
+    f = open("index.html", 'w')
+   
+    f.write(corpo)
+    f.close()
     
 requisicao()   
