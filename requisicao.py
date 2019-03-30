@@ -9,15 +9,22 @@ def requisicao():
     arq2=[]
     # req = b"GET / HTTP/1.1\nHost: stackoverflow.com\n\n"
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # s.connect(("stackoverflow.com", 80))   
-    s.connect(("www.youtube.com", 80))
+    # s.connect(("stackoverflow.com", 80))
+    # http://www.gazetadesaojoaodelrei.com.br/site/categoria/cidade/   
+    s.connect(("www.gazetadesaojoaodelrei.com.br", 80))
     # User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
-    s.sendall(b"GET / HTTP/1.1\r\nHost:www.youtube.com\r\n\r\n")
+    s.sendall(b"GET / HTTP/1.1\r\nHost:www.gazetadesaojoaodelrei.com.br\r\n\r\n")
+    
     # 65536 francoerangelimoveis
     resposta=s.recv(65536)
+    print(resposta,'\n')
+    s.send(b"GET /site/2019/03/retratos-sao-joanenses-1066/ HTTP/1.1\r\nHost:www.gazetadesaojoaodelrei.com.br\r\n\r\n")
+    resposta2=s.recv(65536)
+    print(resposta2)
     # resposta.decode('cp1252')
     # .encode('utf-8')
     s.close()
+    input()
 
     dados=str(resposta,'utf-8')
     # dados=dados.encode('utf-8')
