@@ -11,17 +11,18 @@ def requisicao():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # s.connect(("stackoverflow.com", 80))
     # http://www.gazetadesaojoaodelrei.com.br/site/categoria/cidade/   
-    s.connect(("www.gazetadesaojoaodelrei.com.br", 80))
+    s.connect(("www.opopularjm.com.br", 80))
     # User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
-    s.sendall(b"GET / HTTP/1.1\r\nHost:www.gazetadesaojoaodelrei.com.br\r\n\r\n")
+    s.sendall(b"GET /wp-content/uploads/2019/03/54730591_2023596907688141_5192235201639481344_n.jpg HTTP/1.1\r\nHost:www.opopularjm.com.br\r\n\r\n")
     
     # 65536 francoerangelimoveis
     resposta=s.recv(65536)
-    print(resposta,'\n')
-    s.send(b"GET /site/2019/03/retratos-sao-joanenses-1066/ HTTP/1.1\r\nHost:www.gazetadesaojoaodelrei.com.br\r\n\r\n")
-    resposta2=s.recv(65536)
-    print(resposta2)
-    # resposta.decode('cp1252')
+    # print(resposta,'\n')
+   
+    # s.send(b"GET www.opopularjm.com.br/wp-content/uploads/2019/03/54730591_2023596907688141_5192235201639481344_n.jpg HTTP/1.1\r\nHost:www.opopularjm.com.br\r\n\r\n")
+    # resposta2=s.recv(65536)
+    # print(resposta2)
+    # # resposta.decode('cp1252')
     # .encode('utf-8')
     s.close()
     input()
