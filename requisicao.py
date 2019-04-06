@@ -4,16 +4,18 @@ import socket
 import re 
 import ssl
 
-def requisicao():
+def requisicaohost(url):
     arq=[]
     arq2=[]
+    print("Na requisição",url)
+    input()
     # req = b"GET / HTTP/1.1\nHost: stackoverflow.com\n\n"
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # s.connect(("stackoverflow.com", 80))
     # http://www.gazetadesaojoaodelrei.com.br/site/categoria/cidade/   
     s.connect(("www.opopularjm.com.br", 80))
     # User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
-    s.sendall(b"GET /wp-content/uploads/2019/03/54730591_2023596907688141_5192235201639481344_n.jpg HTTP/1.1\r\nHost:www.opopularjm.com.br\r\n\r\n")
+    s.sendall(b"GET / HTTP/1.1\r\nHost:www.opopularjm.com.br\r\n\r\n")
     
     # 65536 francoerangelimoveis
     resposta=s.recv(65536)
@@ -104,4 +106,4 @@ def requisicao():
     f.write(str(corpo))
     f.close()
     
-requisicao()   
+# requisicao()   
