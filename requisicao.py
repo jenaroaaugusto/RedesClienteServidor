@@ -4,10 +4,12 @@ import socket
 import re 
 import ssl
 
-def requisicaohost(host,link):
+def requisicaohost(host,path):
     arq=[]
     arq2=[]
+
     print("Na requisição",host)
+    print('Host',type(host),'path',type(path))
     input()
     # rex busca apos o google.com\...[\\]+\w+\n
     # req = b"GET / HTTP/1.1\nHost: stackoverflow.com\n\n"

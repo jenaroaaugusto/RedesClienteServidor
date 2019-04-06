@@ -14,27 +14,35 @@ def main():
     
 
 def busca(url):
-    print("Aqui estou")
-    print(url,"\n")
+    # print("Aqui estou")
+    # print(url,"\n")
+    
     descarta,host=url.split('//')
     
-    print(host,"\n")
-    print(len(host))
-    resultado=host.index('/')
-    caminhoincompleto=host[resultado:len(host)]
-    print(caminhoincompleto,"\n")
-    input()
-    caminhoincompleto=host.split('/')
-    print('O path antes',caminhoincompleto)
-    del(caminhoincompleto[0])
+    # print(host,"\n")
+    # print(len(host))
+    auxiliarcolculo=url.split('//')
+    if len(auxiliarcolculo)>3:
+      resultado=host.index('/')
+      # print(resultado)
+      # input()
+      caminhoincompleto=host[resultado:len(host)]
+      # print(caminhoincompleto,"\n")
+      # input()
+    else:
+      # print('Chaguei')
+      caminhoincompleto=''
+    enderco=host.split('/')
+    
+    host=enderco[0]
 
-    print("O Host",host)
-    print('O path',caminhoincompleto)
+    # print("O Host",host)
+    # print('O path',caminhoincompleto)
     path=''.join(caminhoincompleto)
-    print(path)
+    # print(path)
     host='www.'+host
-    print(host)
-    input()
+    # print(host)
+    # input()
     # if len(host)>3 :
     #   print("E maior ")
 
