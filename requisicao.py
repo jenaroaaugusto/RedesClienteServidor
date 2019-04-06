@@ -4,14 +4,16 @@ import socket
 import re 
 import ssl
 
-def requisicaohost(url):
+def requisicaohost(host,link):
     arq=[]
     arq2=[]
-    print("Na requisição",url)
+    print("Na requisição",host)
     input()
+    # rex busca apos o google.com\...[\\]+\w+\n
     # req = b"GET / HTTP/1.1\nHost: stackoverflow.com\n\n"
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # s.connect(("stackoverflow.com", 80))
+    # www.opopularjm.com.br
     # http://www.gazetadesaojoaodelrei.com.br/site/categoria/cidade/   
     s.connect(("www.opopularjm.com.br", 80))
     # User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
