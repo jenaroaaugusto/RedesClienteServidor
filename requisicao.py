@@ -4,22 +4,23 @@ import socket
 import re 
 import ssl
 
-def requisicaohost(host,path):
+def requisicaohost(host,path,porta):
     arq=[]
     arq2=[]
 
-    print("Na requisição",host)
-    print('Host',type(host),'path',type(path))
-    input()
+    # print("Na requisição",host)
+    # print('Host',type(host),'path',type(path))
+
     # rex busca apos o google.com\...[\\]+\w+\n
     # req = b"GET / HTTP/1.1\nHost: stackoverflow.com\n\n"
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # s.connect(("stackoverflow.com", 80))
     # www.opopularjm.com.br
     # http://www.gazetadesaojoaodelrei.com.br/site/categoria/cidade/   
-    s.connect(("www.opopularjm.com.br", 80))
+    s.connect((host,int(porta)))
     # User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
-    s.sendall(b"GET / HTTP/1.1\r\nHost:www.opopularjm.com.br\r\n\r\n")
+    host, path = host.encode(), path.encode()
+    s.sendall(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(path,host))
     
     # 65536 francoerangelimoveis
     resposta=s.recv(65536)
@@ -42,34 +43,7 @@ def requisicaohost(host,path):
     # Verifica o codigodo de resposta
     arq=''+chr(resposta[9])+chr(resposta[10])+chr(resposta[11])
     if  arq == '301':
-        print('ok')
-        # for i in range(0, len(dados)):
-        #     if dados[i]=='L' and dados[i+1]=='o' and dados[i+2] =='c' and dados[i+1] == 'a ' and dados[i+1]=='t'and dados[i+1] == 'i' and dados[i+1] == 'o' and dados[i+1] =='n'
-        x=dados.index('https://')
-        # print(dados)
-        # print(x)
-        # for i in range(x,len(dados)):
-        #     if dados[i] =="\n":
-        #         print(dados[i],"Valor I",i)
-            
-        #         print ('aqui')
-        HOST = "www.youtube.com"
-        PORT = 443
-
-        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s_sock = context.wrap_socket(s, server_hostname=HOST)
-        s_sock.connect((HOST, 443))
-        s_sock.send(" GET / HTTP/1.1\r\nHost: www.youtube.com\r\n\r\n ".encode())
-
-        while True:
-            data = s_sock.recv(2048)
-            if ( len(data) < 1 ) :
-                break
-            print(data)
-
-        s_sock.close()    
-        
+        print('ERRO 301')    
     elif arq != '200' :
         print("erro")
         exit()
