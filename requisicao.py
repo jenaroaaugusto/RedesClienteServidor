@@ -3,6 +3,23 @@
 import socket
 import re 
 import select
+def tratamento(dados):
+    dados=str(resposta,'utf-8')
+    if (dados.find("!DOCTYPE")!=-1):
+        separador=dados.index("!DOCTYPE")
+    elif(dados.find("!doctype")!=-1):
+        separador=dados.index("!doctype")
+    print(separador,'\n')
+    cabecalho=dados[0:separador]
+    fim=dados.index("</html>")
+    corpo=dados[separador:fim]
+    
+    corpo=re.sub(r'[\\]+[n]'," ",corpo)
+    corpo=re.sub(r'[\\]+[t]'," ",corpo)
+    corpo=re.sub(r"[\\]+[']"," ",corpo)
+    corpo=re.sub(r'[\\]+[r]'," ",corpo)
+    return corpo
+
 def caminho_comDados(path,headers):
     path=path.decode()
     extensoes = ['.txt', '.mp3', '.pdf', '.html', '.jpg', '.png']
@@ -32,11 +49,10 @@ def requisicaohost(host,path,porta):
     host, path = host.encode(), path.encode()
  
     s.sendall(b'GET %b HTTP/1.1\r\nHost:%b\r\n\r\n'%(path,host))
-    resposta=s.recv(512000)
+    if auxipath ==0 :
+        resposta=s.recv(512000)
+        corpo=tratamento(resposta)
     
-
-    dados=str(resposta,'utf-8')
-    print(len(dados))
     reply = b''
 
     while select.select([s], [], [], 3)[0]:
@@ -63,20 +79,9 @@ def requisicaohost(host,path,porta):
     #         separador=x
 
     #         print(x)
-    if (dados.find("!DOCTYPE")!=-1):
-        separador=dados.index("!DOCTYPE")
-    elif(dados.find("!doctype")!=-1):
-         separador=dados.index("!doctype")
+   
     # separador=dados.index("!DOCTYPE") 
-    print(separador,'\n')
-    cabecalho=dados[0:separador]
-    fim=dados.index("</html>")
-    corpo=dados[separador:fim]
     
-    corpo=re.sub(r'[\\]+[n]'," ",corpo)
-    corpo=re.sub(r'[\\]+[t]'," ",corpo)
-    corpo=re.sub(r"[\\]+[']"," ",corpo)
-    corpo=re.sub(r'[\\]+[r]'," ",corpo)
     
     print(type(corpo))
 
