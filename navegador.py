@@ -30,14 +30,14 @@ def busca(url):
         porta='80'
     descarta,host=url.split('//')
     
-    print(descarta,'e',host)
-    input()
+    # print(descarta,'e',host)
+    # input()
     # print(host,"\n")
     # print(len(host))
     auxiliarcolculo=url.split('/')
 
-    print(auxiliarcolculo)
-    input()
+    # print(auxiliarcolculo)
+    # input()
     if len(auxiliarcolculo)>3:
       resultado=host.index('/')
       # print(resultado)
@@ -51,11 +51,12 @@ def busca(url):
     enderco=host.split('/')
     
     host=enderco[0]
-    print(host)
-    input()
+    # print("Foi aqui",host)
+    # input()
     # print("O Host",host)
     # print('O path',caminhoincompleto)
     path=''.join(caminhoincompleto)
+    
     # print(path)
     pattern="www."
     if pattern not in host:
@@ -72,9 +73,3 @@ def busca(url):
     
 if __name__ == "__main__":
   main()
-
-
-
-
-
-# busca(url)
