@@ -3,8 +3,9 @@ import select
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # http:///
+# http://www.gazetadesaojoaodelrei.com.br/site/2019/03/setenario-das-dores-medita-os-sofrimentos-de-maria-durante-a-paixao-de-cristo/
 host="www.gazetadesaojoaodelrei.com.br"
-path='/site'
+path='/site/2019/03/setenario-das-dores-medita-os-sofrimentos-de-maria-durante-a-paixao-de-cristo'
 path=path+'/'
 host, path = host.encode(), path.encode()
 # print(path)
@@ -19,8 +20,11 @@ while select.select([s], [], [], 3)[0]:
     if not data: break
     reply += data
 
+
 headers =  reply.split(b'\r\n\r\n')[0]
 image = reply[len(headers)+4:]
+print(image)
+input()
 dados=str(image, ' utf-8 ' )
 print(dados)
 # print(image)

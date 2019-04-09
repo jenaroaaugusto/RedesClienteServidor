@@ -4,15 +4,15 @@ import socket
 import re 
 import select
 def tratamento(dados):
-    dados=str(resposta,'utf-8')
-    if (dados.find("!DOCTYPE")!=-1):
-        separador=dados.index("!DOCTYPE")
-    elif(dados.find("!doctype")!=-1):
-        separador=dados.index("!doctype")
+    informacao=str(dados,'utf-8')
+    if (informacao.find("!DOCTYPE")!=-1):
+        separador=informacao.index("!DOCTYPE")
+    elif(informacao.find("!doctype")!=-1):
+        separador=informacao.index("!doctype")
     print(separador,'\n')
-    cabecalho=dados[0:separador]
-    fim=dados.index("</html>")
-    corpo=dados[separador:fim]
+    cabecalho=informacao[0:separador]
+    fim=informacao.index("</html>")
+    corpo=informacao[separador:fim]
     
     corpo=re.sub(r'[\\]+[n]'," ",corpo)
     corpo=re.sub(r'[\\]+[t]'," ",corpo)
@@ -22,13 +22,24 @@ def tratamento(dados):
 
 def caminho_comDados(path,headers):
     path=path.decode()
+    auxipath=path
     extensoes = ['.txt', '.mp3', '.pdf', '.html', '.jpg', '.png']
     path=path.split('/')
-    print("ok")
+    # print(path)
+    # print("ok")
+    # nome=host[posi:len(host)] 
     for arquivo in path:
         if arquivo[-4:] in extensoes:
-            return 'Downloads-'
-    return "Downloads-arquivo_generico"
+            # print(arquivo[-4:])
+            
+            return '-'.join(path[0:len(auxipath)-5])+arquivo[-4:]
+    posi=len(auxipath)
+    print(posi)
+    print(path)
+    input()
+    # posi=auxipath.index("/")
+    # nome=auxipath[posi:len(auxipath)]
+    return "-".join(path)+".html"
 def CaminhosSemArquivo(mensagem,host):    
     print('Host',host)
     host=host.decode()
@@ -56,34 +67,17 @@ def requisicaohost(host,path,porta):
     reply = b''
 
     while select.select([s], [], [], 3)[0]:
-        data = s.recv(65536)
+        data = s.recv(512000)
         if not data: break
         reply += data
 
     headers =  reply.split(b'\r\n\r\n')[0]
     corpoitens = reply[len(headers)+4:]
-    # print(corpoitens)
-    # input()
+    print(corpoitens)
+    input()
 
     s.close()
-    # print(headers)
-    # input()
-    # print(len(auxipath))
-    # print(auxipath)
-    # input()
-    separador=0
-
-    # for x in range(0,len(dados)):
-    #     if dados[x]=='<' and dados[x+1]=='!' and (dados[x+2]=='d' or dados[x+2]=='D') :  
-    #         print('ok')
-    #         separador=x
-
-    #         print(x)
    
-    # separador=dados.index("!DOCTYPE") 
-    
-    
-    print(type(corpo))
 
     if len(auxipath)!=0:
         arqnome = caminho_comDados(path,headers)
@@ -114,13 +108,8 @@ def requisicaohost(host,path,porta):
 #         exit()
 #     print(arq,"\n")
 #     input()
-    
-
-
-
 
 #     separador=0
-
 #     for x in range(0,len(dados)):
 #         if dados[x]=='<' and dados[x+1]=='!' and (dados[x+2]=='d' or dados[x+2]=='D') :  
 #             print('ok')
