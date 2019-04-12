@@ -3,13 +3,35 @@
 import socket
 import re 
 import select
+# http://127.0.0.1:5000
+def servidorconect(host,path,porta):
+    host,porta=host.split(':')
+    print("Aqui")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host,int(porta)))
+    auxipath="Hello"
+    host, auxipath = host.encode(), auxipath.encode()
+    s.send(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
+    print("Passou ")
+    estado=s.recv(1024)
+    estado=estado.decode()
+    print("Passou 2 ")
+    print("Conexão",estado,"\nDigite a solicitação:")
+    requisitado=input("Exemplo: index.html\n")
+    requisitado=requisitado.encode()
+    path=requisitado
+    s.send(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(path,host))
+    resposta=s.recv(2048)
+    print(resposta)
+
+    s.send(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
 def tratamento(dados):
     informacao=str(dados,'utf-8')
     if (informacao.find("!DOCTYPE")!=-1):
         separador=informacao.index("!DOCTYPE")
     elif(informacao.find("!doctype")!=-1):
         separador=informacao.index("!doctype")
-    print(separador,'\n')
+    # print(separador,'\n')
     cabecalho=informacao[0:separador]
     fim=informacao.index("</html>")
     corpo=informacao[separador:fim]
@@ -19,7 +41,6 @@ def tratamento(dados):
     corpo=re.sub(r"[\\]+[']"," ",corpo)
     corpo=re.sub(r'[\\]+[r]'," ",corpo)
     return corpo
-
 def caminho_comDados(path,headers):
     path=path.decode()
     auxipath=path
@@ -34,14 +55,14 @@ def caminho_comDados(path,headers):
             
             return '-'.join(path[0:len(auxipath)-5])+arquivo[-4:]
     posi=len(auxipath)
-    print(posi)
-    print(path)
-    input()
+    # print(posi)
+    # print(path)
+    # input()
     # posi=auxipath.index("/")
     # nome=auxipath[posi:len(auxipath)]
     return "-".join(path)+".html"
 def CaminhosSemArquivo(mensagem,host):    
-    print('Host',host)
+    
     host=host.decode()
     posi=host.index("www")
     
@@ -50,20 +71,21 @@ def CaminhosSemArquivo(mensagem,host):
 
     return "Downloads-"+nome+".html"
 def requisicaohost(host,path,porta):
-    arq=[]
-    arq2=[]
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   
+  
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    
     s.connect((host,int(porta)))
+    
     auxipath=path
     path=path+'/'
     host, path = host.encode(), path.encode()
- 
+    
     s.sendall(b'GET %b HTTP/1.1\r\nHost:%b\r\n\r\n'%(path,host))
-    if auxipath ==0 :
+  
+    if len(auxipath) == 0 :
         resposta=s.recv(512000)
         corpo=tratamento(resposta)
-    
+
     reply = b''
 
     while select.select([s], [], [], 3)[0]:
@@ -73,8 +95,6 @@ def requisicaohost(host,path,porta):
 
     headers =  reply.split(b'\r\n\r\n')[0]
     corpoitens = reply[len(headers)+4:]
-    print(corpoitens)
-    input()
 
     s.close()
    
@@ -85,53 +105,7 @@ def requisicaohost(host,path,porta):
         saida.write(corpoitens)
         saida.close()
     else:
-        arqnome= CaminhosSemArquivo(corpo,host)
-        saida = open(arqnome,'w')
-        print('ok') 
-        # informacao=str(corpo, ' utf-8 ' ) 
+        arqnome=CaminhosSemArquivo(corpo,host)
+        saida = open(arqnome,'w') 
         saida.write(str(corpo))
         saida.close()
-
-
-
-#     dados = str (resposta, ' utf-8 ' )
-
-#     print(dados,'\n')
-#     # dados
-  
-#     # Verifica o codigodo de resposta
-#     arq=''+chr(resposta[9])+chr(resposta[10])+chr(resposta[11])
-#     if  arq == '301':
-#         print('ERRO 301')    
-#     elif arq != '200' :
-#         print("erro")
-#         exit()
-#     print(arq,"\n")
-#     input()
-
-#     separador=0
-#     for x in range(0,len(dados)):
-#         if dados[x]=='<' and dados[x+1]=='!' and (dados[x+2]=='d' or dados[x+2]=='D') :  
-#             print('ok')
-#             separador=x
-
-#             print(x)
-#     print(separador,'\n')
-#     cabecalho=dados[0:separador]
-#     corpo=dados[separador:len(dados)]
-    
-#     corpo=re.sub(r'[\\]+[n]'," ",corpo)
-#     corpo=re.sub(r'[\\]+[t]'," ",corpo)
-#     corpo=re.sub(r"[\\]+[']"," ",corpo)
-#     corpo=re.sub(r'[\\]+[r]'," ",corpo)
-    
-
-#     print(corpo)
-
-#     f = open("index2.html", 'w')
-#     # f.write(str(corpo,'latin1'))
-#     # f.write(str(corpo))
-#     f.write(str(corpo))
-#     f.close()
-    
-# # requisicao()   

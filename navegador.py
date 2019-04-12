@@ -1,6 +1,7 @@
 #coding: utf-8
 import requisicao as ende
 import re
+# http://127.0.0.1:5000
 def main():
     url=input("URL do Website:")
     if re.search(r'[http:]+[//]+[//]', url, re.IGNORECASE):
@@ -9,9 +10,6 @@ def main():
       print("Endereço Invalido")
       main()
       url=''
-
-    
-    
 
 def busca(url):
     # print("Aqui estou")
@@ -58,18 +56,18 @@ def busca(url):
     path=''.join(caminhoincompleto)
     
     # print(path)
-    pattern="www."
-    if pattern not in host:
-      host='www.'+host
-      
-    # print(host)
-    # input()
-    # if len(host)>3 :
-    #   print("E maior ")
-
-    # input()
+    # print(host[0])
+    
+    if(host[0]!='1'):
+      pattern="www."
+      if pattern not in host:
+        host='www.'+host
+    else:
+      print("Passei o www")
+      ende.servidorconect(host,path,porta)
+    
     ende.requisicaohost(host,path,porta)
-    # erequisicao(url)
+    
     
 if __name__ == "__main__":
   main()

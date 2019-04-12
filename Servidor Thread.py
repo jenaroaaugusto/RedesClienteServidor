@@ -16,10 +16,13 @@ def conectado(con, cliente):
             print "Aqui"
             con.sendall("Servidor NINA ")
             msg=''
-        if not msg:break
-        if msg =="exit":
-            exit()
+        # if not msg:break
+        # con.settimeout()
+        if "exit" in msg:
+            break
         print cliente, msg
+
+        if
 
     print 'Finalizando conexao do cliente', cliente 
     con.close()
@@ -30,7 +33,7 @@ tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 orig = (HOST, PORT)
 
 tcp.bind(orig)
-tcp.listen(1)
+tcp.listen(5)
 
 while True:
     con, cliente = tcp.accept()
