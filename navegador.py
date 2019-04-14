@@ -62,12 +62,11 @@ def busca(url):
       pattern="www."
       if pattern not in host:
         host='www.'+host
+        
     else:
       print("Passei o www")
       ende.servidorconect(host,path,porta)
-    
+      
     ende.requisicaohost(host,path,porta)
-    
-    
 if __name__ == "__main__":
   main()
