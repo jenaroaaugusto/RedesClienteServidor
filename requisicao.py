@@ -48,7 +48,7 @@ def servidorconect(host,path,porta):
         reply += data
     headers =  reply.split(b'|')[0]
     corpoitens = reply[len(headers)+1:]
-
+    
     print("aqui",len(reply))
     if len(reply)==0:
         print("ERRO 404")
