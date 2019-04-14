@@ -28,7 +28,7 @@ def atividadeconecao(cliente,con):
             msg=''
         else:
             print("ok")
-            
+            exit()
         if msg =="exit":
             exit()
         print (cliente, msg)

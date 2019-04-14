@@ -5,7 +5,12 @@ import re
 import select
 # http://127.0.0.1:5000
 def servidorconect(host,path,porta):
-    host,porta=host.split(':')
+    print("Host",host,"Caminho",path,"Porta",porta)
+    # host,porta=host.split(':')
+    auxurl,auxport=path.split(":")
+    print(auxurl,"e",auxport)
+    porta=auxport
+    path=auxurl
     print("Host",host,"Caminho",path,"Porta",porta)
     print("Aqui")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,7 +21,7 @@ def servidorconect(host,path,porta):
         auxipath=path
 
     host, auxipath = host.encode(), auxipath.encode()
-    s.send(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
+    s.send(b'GET %b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
     print("Passou ")
 
     reply = b''
