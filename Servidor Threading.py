@@ -11,24 +11,29 @@ def atividadeconecao(cliente,con):
         msg=msg.decode()
         print("Apos decode\n")
         print("Valor", msg)
-    
+        exit()
         if "Hello" in msg:
-            print("Aqui")
-            arq = open("index.html",'r')
+            arq = open("servidor/index.html",'r')
             informacao= arq.read()
-            # print(informacao)
             home=''.join(informacao)
-            # print(home)
-            envio="Servidor NINA |"+home
-            print("Tamanho envio",len(envio))
-            
+            envio="Servidor NINA |"+home    
             envio=envio.encode()
             print(len (envio))
             con.sendall(envio)
             msg=''
-        else:
-            print("ok")
-            exit()
+            arq.close()
+        elif "index" in msg:
+            arq = open("servidor/index.html",'r')
+            informacao= arq.read()
+            home=''.join(informacao)  
+            envio=envio.encode()
+            print(len (envio))
+            con.sendall(envio)
+            msg=''
+            arq.close()
+        if 
+
+        arquivos=['index.html','logo.png','casa.txt']
         if msg =="exit":
             exit()
         print (cliente, msg)

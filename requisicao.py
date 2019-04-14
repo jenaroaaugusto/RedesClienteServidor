@@ -4,9 +4,25 @@ import socket
 import re 
 import select
 # http://127.0.0.1:5000
+def status_code(headers):
+    print("aqui1")
+    situacao = {"302": "302 Found",
+             "404": "404 Not Found",
+             "301": "301 Moved Permanently",
+             "401": "401 Unauthorized",
+             "400": "400 Bad Request",
+             "403": "403 Forbidden",
+             "500": "500 Internal Server Error",
+             "504": "504 Gateway Timeout",
+             "501": "501 Not Implemented",
+             "502": "502 Bad Gateway",
+             "503": "503 Service Unavailable"}
+    status=headers.split()
+    if status[1] in situacao.keys():
+        print(situacao[status[1]])
+        exit()
 def servidorconect(host,path,porta):
     print("Host",host,"Caminho",path,"Porta",porta)
-    # host,porta=host.split(':')
     auxurl,auxport=path.split(":")
     print(auxurl,"e",auxport)
     porta=auxport
@@ -42,26 +58,8 @@ def servidorconect(host,path,porta):
     print(headers)
     input()
     print(corpoitens)
-
     exit()
-    # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    # s.connect((host,int(porta)))
-    # auxipath="Hello"
-    # host, auxipath = host.encode(), auxipath.encode()
-    # s.send(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
-    # print("Passou ")
-    # estado=s.recv(1024)
-    # estado=estado.decode()
-    # print("Passou 2 ")
-    # print("Conexão",estado,"\nDigite a solicitação:")
-    # requisitado=input("Exemplo: index.html\n")
-    # requisitado=requisitado.encode()
-    # path=requisitado
-    # s.send(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(path,host))
-    # resposta=s.recv(2048)
-    # print(resposta)
 
-    # s.send(b'GET /%b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
 def tratamento(dados):
     informacao=str(dados,'utf-8')
     if (informacao.find("!DOCTYPE")!=-1):
@@ -88,16 +86,11 @@ def caminho_comDados(path,headers):
     # nome=host[posi:len(host)] 
     for arquivo in path:
         if arquivo[-4:] in extensoes:
-            # print(arquivo[-4:])
             
-            return '-'.join(path[0:len(auxipath)-5])+arquivo[-4:]
+            return 'Sites/'+''.join(path[0:len(auxipath)-5])+arquivo[-4:]
     posi=len(auxipath)
-    # print(posi)
-    # print(path)
-    # input()
-    # posi=auxipath.index("/")
-    # nome=auxipath[posi:len(auxipath)]
-    return "-".join(path)+".html"
+   
+    return 'Sites/'+''.join(path)+".html"
 def CaminhosSemArquivo(mensagem,host):    
     
     host=host.decode()
@@ -105,8 +98,7 @@ def CaminhosSemArquivo(mensagem,host):
     
     nome=host[posi:len(host)] 
     
-
-    return "Downloads-"+nome+".html"
+    return "Sites/"+nome+".html"
 def requisicaohost(host,path,porta):
   
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
@@ -132,7 +124,8 @@ def requisicaohost(host,path,porta):
 
     headers =  reply.split(b'\r\n\r\n')[0]
     corpoitens = reply[len(headers)+4:]
-
+    a=headers.decode()
+    status_code(a)
     s.close()
    
 
