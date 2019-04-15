@@ -1,6 +1,5 @@
 # Redes Cliente Servidor Python
 ##Trabalho Pratico para Disciplina de Redes de Computadores 2019/1 UFSJ
-## Trabalho para a disciplina de Redes 2019.1 - Prof. Flávio 
 Para rodar o Servidor e o Cliente respectivamente:
 ```
 python Threading Servidor.py
