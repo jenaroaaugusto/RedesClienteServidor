@@ -22,13 +22,13 @@ def status_code(headers):
         print(situacao[status[1]])
         exit()
 def servidorconect(host,path,porta):
-    print("Host",host,"Caminho",path,"Porta",porta)
+    # print("Host",host,"Caminho",path,"Porta",porta)
     auxurl,auxport=path.split(":")
-    print(auxurl,"e",auxport)
+    # print(auxurl,"e",auxport)
     porta=auxport
     path=auxurl
-    print("Host",host,"Caminho",path,"Porta",porta)
-    print("Aqui")
+    # print("Host",host,"Caminho",path,"Porta",porta)
+    # print("Aqui")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host,int(porta)))
     if len(path)==0:
@@ -38,8 +38,7 @@ def servidorconect(host,path,porta):
 
     host, auxipath = host.encode(), auxipath.encode()
     s.send(b'GET %b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
-    print("Passou ")
-
+   
     reply = b''
 
     while select.select([s], [], [], 3)[0]:
@@ -48,16 +47,22 @@ def servidorconect(host,path,porta):
         reply += data
     headers =  reply.split(b'|')[0]
     corpoitens = reply[len(headers)+1:]
-    
-    print("aqui",len(reply))
-    if len(reply)==0:
-        print("ERRO 404")
-        exit()
-    corpoitens= corpoitens.decode()
     headers=headers.decode()
+
     print(headers)
-    input()
-    print(corpoitens)
+    # print("aqui",len(reply))
+    if len(reply)==0:
+        print("Servidor NINA ERRO 404")
+        exit()
+    # corpoitens= corpoitens.decode()
+   
+    # print(path)
+    # input()
+    
+    saida = open("Sites"+path,'wb')
+    saida.write(corpoitens)
+    saida.close()
+    
     exit()
 
 def tratamento(dados):

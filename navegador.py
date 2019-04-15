@@ -52,7 +52,7 @@ def busca(url):
         host='www.'+host
         
     else:
-      print("Passei o www")
+      
       ende.servidorconect(host,path,porta)
       
     ende.requisicaohost(host,path,porta)

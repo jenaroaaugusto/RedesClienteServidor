@@ -18,38 +18,37 @@ def atividadeconecao(cliente,con):
             arq = open("servidor/index.html",'r')
             informacao= arq.read()
             home=''.join(informacao)
-            envio="Servidor NINA |"+home    
+            envio="Servidor NINA: 200 OK|"+home    
             envio=envio.encode()
             print(len (envio))
             con.sendall(envio)
             
             arq.close()
-            # break
+            break
         elif "index" in msg:
             arq = open("servidor/index.html",'r')
             informacao= arq.read()
-            home="Servidor NINA |"+''.join(informacao) 
+            home="Servidor NINA :200 OK |"+''.join(informacao) 
             home=home.encode() 
             con.sendall(home)
-            
+        
             arq.close()
-            # break
+            break
         arquivos=['/index.html','/logo.png','/casa.txt']
         if busca in arquivos:
-            print("chegou aquiii....")
+            
             arq = open("servidor"+busca,'r')
             informacao= arq.read()
-            home="Servidor NINA |"+''.join(informacao) 
+            home="Servidor NINA 200 OK|"+''.join(informacao) 
             home=home.encode() 
             con.sendall(home)
-            
             arq.close()
-            # break
+            break
 
 
         
         if msg =="exit":
-            # break 
+            break 
             exit()
         print (cliente, msg)
     print ('Finalizando conexao do cliente', cliente )
