@@ -15,9 +15,11 @@ def atividadeconecao(cliente,con):
             arq = open("estouaqui.html",'r')
             
             informacao=arq.read()
-            cabeca="HTTP/1.1/ 200 OK \r\nHost:127.0.0.1:5000\r\n\r\nConnection: keep-alive\r\nUpgrade-Insecure-Requests: 1\r\nUser-Agent:BarbsClient/5.0 (X11; Linux x86_64)\r\nAccept: text/html\r\nAccept-Encoding: deflate\r\nAccept-Language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7\r\n\r\n"+informacao
-            cabeca=cabeca.encode()
-            con.sendall(cabeca)
+            cabeca="HTTP/1.1/ 200 OK\r\nHost:127.0.0.1:5000\r\nConnection: keep-alive\r\nUpgrade-Insecure-Requests: 1\r\nUser-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36 OPR/38.0.2220.41\r\nAccept: text/html\r\nAccept-Encoding: deflate\r\nAccept-Language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7\r\n\r\n"
+            cabeca=cabeca.encode('utf-8')
+            informacao=informacao.encode('utf-8')
+            cabeca=cabeca+informacao
+            con.send(cabeca)
             break
         # print("Copia",busca)
         # # exit()

@@ -23,15 +23,16 @@ def status_code(headers):
         print(situacao[status[1]])
         exit()
 def servidorconect(host,path,porta):
-    # print("Host",host,"Caminho",path,"Porta",porta)
-    # print("caminho",path)
+    print("Host",host,"Caminho",path,"Porta",porta)
+    exit()
+    # # print("caminho",path)
     
-    auxurl,auxport=path.split(":")
-    # print(auxurl,"e",auxport)
-    porta=auxport
-    path=auxurl
-    # print("Host",host,"Caminho",path,"Porta",porta)
-    # print("Aqui")
+    # auxurl,auxport=path.split(":")
+    # # print(auxurl,"e",auxport)
+    # porta=auxport
+    # path=auxurl
+    # # print("Host",host,"Caminho",path,"Porta",porta)
+    # # print("Aqui")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host,int(porta)))
     if len(path)==0:

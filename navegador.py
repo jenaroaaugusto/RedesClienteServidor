@@ -24,18 +24,25 @@ def busca(url):
 
     # validacao=linkcompleto[0:4] 
     # print(linkcompleto[0:4])  
-    if linkcompleto[0:4]=="127":
-        print("Funciona")
+    if "127."in linkcompleto[0:4]:
+      print(linkcompleto)
+      local=linkcompleto.index('/')
+      host=copy.copy(linkcompleto[0:local])
+      path=copy.copy(linkcompleto[local:len(linkcompleto)])
+      print("Funciona",host,"e",path)
+      ende.servidorconect(host,path,porta)
+
     elif "/" in linkcompleto:
       local=linkcompleto.index('/')
       host=copy.copy(linkcompleto[0:local])
-      
+      if "www."not in host: host="www."+host
       path=copy.copy(linkcompleto[local:len(linkcompleto)])
       ende.requisicaohost(host,path,porta)
       # print(host ,"e",path)
     elif "/" not in linkcompleto:
       path=""
       host=copy.copy(linkcompleto)
+      if "www."not in host: host="www."+host
       ende.requisicaohost(host,path,porta)
 
 
