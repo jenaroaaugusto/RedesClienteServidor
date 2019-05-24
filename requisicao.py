@@ -24,48 +24,41 @@ def status_code(headers):
         exit()
 def servidorconect(host,path,porta):
     print("Host",host,"Caminho",path,"Porta",porta)
-    exit()
-    # # print("caminho",path)
     
-    # auxurl,auxport=path.split(":")
-    # # print(auxurl,"e",auxport)
-    # porta=auxport
-    # path=auxurl
-    # # print("Host",host,"Caminho",path,"Porta",porta)
-    # # print("Aqui")
+    if '/'in porta:
+        i= porta.index('/')
+        path=porta[i:len(porta)]
+        porta=porta[0:i]
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host,int(porta)))
-    if len(path)==0:
-        auxipath="Hello"
-    else:
-        auxipath=path
 
-    host, auxipath = host.encode(), auxipath.encode()
-    s.send(b'GET %b HTTP/1.1\r\nHost:%b\r\n\r\n'%(auxipath,host))
+    # path=path
+    host, path = host.encode(), path.encode()
+    s.send(b'GET %b HTTP/1.1\r\nHost:%b\r\n\r\n'%(path,host))
    
     reply = b''
-
+    
     while select.select([s], [], [], 3)[0]:
         data = s.recv(512000)
         if not data: break
         reply += data
-    headers =  reply.split(b'|')[0]
-    corpoitens = reply[len(headers)+1:]
+    headers =  reply.split(b'\r\n\r\n')[0]
+    corpoitens = reply[len(headers)+4:]
     headers=headers.decode()
-
-    print(headers)
-    # print("aqui",len(reply))
-    if len(reply)==0:
-        print("Servidor NINA ERRO 404")
-        exit()
-    # corpoitens= corpoitens.decode()
-   
-    # print(path)
-    # input()
+    path=path.decode()
+    status_code(headers)
     
-    saida = open("Sites"+path,'wb')
-    saida.write(corpoitens)
-    saida.close()
+    if path=='/':
+        path=path+"index.html"
+        
+        saida = open("Sites"+path,'wb')
+        saida.write(corpoitens)
+        saida.close()
+    else:
+        print(path)
+        saida = open("Sites"+path,'wb')
+        saida.write(corpoitens)
+        saida.close()
     
     exit()
 
@@ -156,7 +149,7 @@ def requisicaohost(host,path,porta):
     a=headers.decode()
     print("Sou eu",a)
     
-    # status_code(a)
+    status_code(a)
     s.close()
     print("200 OK")
    

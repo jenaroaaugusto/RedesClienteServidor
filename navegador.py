@@ -26,9 +26,14 @@ def busca(url):
     # print(linkcompleto[0:4])  
     if "127."in linkcompleto[0:4]:
       print(linkcompleto)
-      local=linkcompleto.index('/')
-      host=copy.copy(linkcompleto[0:local])
-      path=copy.copy(linkcompleto[local:len(linkcompleto)])
+      if '/' in linkcompleto:
+        local=linkcompleto.index('/')
+        host=copy.copy(linkcompleto[0:local])
+        path=copy.copy(linkcompleto[local:len(linkcompleto)])
+      else:
+        host=copy.copy(linkcompleto)
+        path=''
+      
       print("Funciona",host,"e",path)
       ende.servidorconect(host,path,porta)
 
