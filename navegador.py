@@ -1,6 +1,7 @@
 #coding: utf-8
 import requisicao as ende
 import re
+import copy
 # http://127.0.0.1:5000
 def main():
     url=input("URL do Website:")
@@ -10,51 +11,77 @@ def main():
       print("Endereço Invalido")
       main()
       url=''
-
 def busca(url):
+    padrao,link=url.split("//")
+    print(padrao,"E",link)
     
-    # dois=':'
-    if ":" in url:
-      a1=url.index(':')
-      if url[a1+1]!='/':
-        print('Tem : pontos')
-        a=url.index(':',5)
-        a=a+1
-        porta=url[a:len(url)]
-      # elif:
-      else:
-        print(url)
-        porta='80'
-      
+    if ":"in link:
+      linkcompleto,porta=link.split(":")
+      print("Aqui",linkcompleto,"e",porta)
     else:
-        porta='80'
-    descarta,host=url.split('//')
-  
-    auxiliarcolculo=url.split('/')
+      linkcompleto=copy.copy(link)
+      porta='80' 
 
-    if len(auxiliarcolculo)>3:
-      resultado=host.index('/')
-      caminhoincompleto=host[resultado:len(host)]
+    # validacao=linkcompleto[0:4] 
+    # print(linkcompleto[0:4])  
+    if linkcompleto[0:4]=="127":
+        print("Funciona")
+    elif "/" in linkcompleto:
+      local=linkcompleto.index('/')
+      host=copy.copy(linkcompleto[0:local])
       
-    else:
+      path=copy.copy(linkcompleto[local:len(linkcompleto)])
+      ende.requisicaohost(host,path,porta)
+      # print(host ,"e",path)
+    elif "/" not in linkcompleto:
+      path=""
+      host=copy.copy(linkcompleto)
+      ende.requisicaohost(host,path,porta)
+
+
+    # exit()
+    # if ":" in url:
+    #   a1=url.index(':')
+    #   if url[a1+1]!='/':
+    #     print('Tem : pontos')
+    #     a=url.index(':',5)
+    #     a=a+1
+    #     porta=url[a:len(url)]
+    #   # elif:
+    #   else:
+    #     print(url)
+    #     porta='80'
+      
+    # else:
+    #     porta='80'
+    # descarta,host=url.split('//')
+    # auxiliarcolculo=url.split('/')
+
+    # if len(auxiliarcolculo)>3:
+    #   resultado=host.index('/')
+    #   caminhoincompleto=host[resultado:len(host)]
+      
+    # else:
      
-      caminhoincompleto=''
-    enderco=host.split('/')
+    #   caminhoincompleto=''
+    # enderco=host.split('/')
     
-    host=enderco[0]
+    # host=enderco[0]
   
-    path=''.join(caminhoincompleto)
+    # path=''.join(caminhoincompleto)
     
   
-    if(host[0]!='1'):
-      pattern="www."
-      if pattern not in host:
-        host='www.'+host
+    # if(host[0]!='1'):
+    #   pattern="www."
+    #   if pattern not in host:
+    #     host='www.'+host
         
-    else:
+    # else:
+    #   print("Antes de", path)
+    #   exit()
+    #   ende.servidorconect(host,path,porta)
       
-      ende.servidorconect(host,path,porta)
-      
-    ende.requisicaohost(host,path,porta)
+    # ende.requisicaohost(host,path,porta)
 if __name__ == "__main__":
-  main()
+  while(1):
+    main()

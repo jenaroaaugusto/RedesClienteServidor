@@ -3,9 +3,10 @@
 import socket
 import re 
 import select
+import copy
 # http://127.0.0.1:5000
 def status_code(headers):
-    print("aqui1")
+    # print("aqui1")
     situacao = {"302": "302 Found",
              "404": "404 Not Found",
              "301": "301 Moved Permanently",
@@ -23,6 +24,8 @@ def status_code(headers):
         exit()
 def servidorconect(host,path,porta):
     # print("Host",host,"Caminho",path,"Porta",porta)
+    # print("caminho",path)
+    
     auxurl,auxport=path.split(":")
     # print(auxurl,"e",auxport)
     porta=auxport
@@ -66,6 +69,8 @@ def servidorconect(host,path,porta):
     exit()
 
 def tratamento(dados):
+    print("Vim aqui")
+   
     informacao=str(dados,'utf-8')
     if (informacao.find("!DOCTYPE")!=-1):
         separador=informacao.index("!DOCTYPE")
@@ -83,7 +88,8 @@ def tratamento(dados):
     return corpo
 def caminho_comDados(path,headers):
     path=path.decode()
-    auxipath=path
+
+    auxipath=copy.copy(path)
     extensoes = ['.txt', '.mp3', '.pdf', '.html', '.jpg', '.png']
     path=path.split('/')
     # print(path)
@@ -109,19 +115,36 @@ def requisicaohost(host,path,porta):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
     
     s.connect((host,int(porta)))
-    
-    auxipath=path
+    print("path",path)
+
+    # auxipath=path
+    auxipath=copy.copy(path)
+    # if "/" in path:
+
     path=path+'/'
     host, path = host.encode(), path.encode()
     
     s.sendall(b'GET %b HTTP/1.1\r\nHost:%b\r\n\r\n'%(path,host))
-  
+    resposta=b''
     if len(auxipath) == 0 :
-        resposta=s.recv(512000)
-        corpo=tratamento(resposta)
+        
+        while select.select([s], [], [], 3)[0]:
+            data = s.recv(512000)
+            if not data: break
+            resposta += data
+        headers =  resposta.split(b'\r\n\r\n')[0]
+        corpo = resposta[len(headers)+4:]
+        corpo=corpo.decode()
+        a=headers.decode()
+        status_code(a)
+        arqnome=CaminhosSemArquivo(corpo,host)
+        saida = open(arqnome,'w') 
+        saida.write(str(corpo))
+        saida.close()
+        exit()
 
     reply = b''
-
+    
     while select.select([s], [], [], 3)[0]:
         data = s.recv(512000)
         if not data: break
@@ -130,8 +153,11 @@ def requisicaohost(host,path,porta):
     headers =  reply.split(b'\r\n\r\n')[0]
     corpoitens = reply[len(headers)+4:]
     a=headers.decode()
-    status_code(a)
+    print("Sou eu",a)
+    
+    # status_code(a)
     s.close()
+    print("200 OK")
    
 
     if len(auxipath)!=0:

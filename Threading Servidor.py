@@ -10,10 +10,17 @@ def atividadeconecao(cliente,con):
         print("No mensagem",msg)
         auxmsg=msg.split()
         print("No aux2",auxmsg)
-        # input()
         busca=copy.deepcopy(auxmsg[1])
-        print("Copia",busca)
-        # exit()
+        if busca == '/' :
+            arq = open("estouaqui.html",'r')
+            
+            informacao=arq.read()
+            cabeca="HTTP/1.1/ 200 OK \r\nHost:127.0.0.1:5000\r\n\r\nConnection: keep-alive\r\nUpgrade-Insecure-Requests: 1\r\nUser-Agent:BarbsClient/5.0 (X11; Linux x86_64)\r\nAccept: text/html\r\nAccept-Encoding: deflate\r\nAccept-Language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7\r\n\r\n"+informacao
+            cabeca=cabeca.encode()
+            con.sendall(cabeca)
+            break
+        # print("Copia",busca)
+        # # exit()
         if "Hello" in msg:
             arq = open("servidor/index.html",'r')
             informacao= arq.read()
@@ -45,13 +52,12 @@ def atividadeconecao(cliente,con):
             arq.close()
             break
 
-
-        
         if msg =="exit":
             break 
             exit()
         print (cliente, msg)
     print ('Finalizando conexao do cliente', cliente )
+    exit()
     con.close()
     # threading.exit()
 
