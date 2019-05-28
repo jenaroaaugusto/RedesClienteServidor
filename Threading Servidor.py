@@ -24,8 +24,6 @@ def tipo(requerido):
 def atividadeconecao(cliente,con):
     print("Cliente conectado: IP ",cliente)
     
-    # print(diretorio)
-    # exit()
     href=[]
     
     while True:
@@ -42,13 +40,7 @@ def atividadeconecao(cliente,con):
         
         busca=copy.deepcopy(auxmsg[1])
         if busca == '/' or busca=='/index':
-            print("Aqui")
-            # arq = open("estouaqui.html",'r')
-            # print(diretorio)
-            # print(type(diretorio))
-        
-            # exit()
-            # for j in range(len(diretorio)):
+           
             for i in diretorio:
                 print(i)
                 ok="<li><a href=/"+i+">"+i+"/</a></li>"
@@ -69,8 +61,7 @@ def atividadeconecao(cliente,con):
             con.send(cabeca)
             
             break
-        # print("Copia",busca)
-        # # exit()
+        
         elif msg!="":
             print("No mensagem")
             print("i",msg.index("T"),'x',msg.index("HTTP"))
