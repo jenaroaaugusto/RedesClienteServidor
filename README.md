@@ -6,9 +6,15 @@ python Threading Servidor.py
 python navegador.py
 ```
 ##### O Servidor, porta 5000
+Apresenta a pasta local com os arquivos no servidor
+```
+Caso não exista o solicitado:
+Erro 404 Page Not Found.
+```
 
 ##### O Cliente
 O cliente irá, a partir de uma dada URL e de uma porta escolhida pelo usuário para baixar o arquivo pedido:
+
 ```
 Erro 404 Page Not Found.
 ```
